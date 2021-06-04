@@ -27,8 +27,8 @@ app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`)
 })
 
-// Process Error
-process.on('unhandledRejection', (err, promise) => {
-    console.log(`Logged Error: ${err}`)
-    app.close(() => process.exit(1))
-})
+// // Process Error
+// process.on('unhandledRejection', (err, promise) => {
+//     console.log(`Logged Error: ${err}`)
+//     server.close(() => process.exit(1))
+// })
