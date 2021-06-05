@@ -38,57 +38,6 @@ exports.signin = async (req, res, next) => {
     }
 }
 
-
-// exports.signin = (req, res) => {
-//     User.findOne({ email: req.body.email })
-//         .exec(async (error, user) => {
-//             if (error) res.status(400).json({ error: error })
-//             if (user) {
-//                 const isPassword = await user.authenticate(req.body.password);
-//                 if (isPassword && user.role === 'admin') {
-//                     const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' })
-//                     const { _id, firstName, lastName, email, role, fullName } = user
-//                     res.cookie('token', token, { expiresIn: '1d' })
-//                     res.status(200).json({
-//                         token: token,
-//                         user: {
-//                             _id, firstName, lastName, email, role, fullName
-//                         }
-//                     })
-//                 } else {
-//                     res.status(400).json({ message: 'Invalid Password.' })
-//                 }
-//             } else {
-//                 res.status(400).json({ message: 'Something went wrong.' })
-//             }
-//         })
-// }
-
-
-// exports.signout = (req, res) => {
-//     res.clearCookie('token');
-//     res.status(200).json({
-//         message: 'Signout successfully...!'
-//     })
-// }
-
-
-/*
-
-exports.login = async (req, res, next) => {
-    const { email, password } = req.body;
-    if (!email || !password) return next(new ErrorResponse('Please provide email and password', 400))
-    try {
-        const user = await User.findOne({ email }).select('+password')
-        if (!user) return next(new ErrorResponse('Invalid Creadentials', 401))
-        const isMatch = await user.matchPasswords(password)
-        if (!isMatch) return next(new ErrorResponse('Invalid Creadentials', 401))
-        sendToken(user, 200, res)
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message })
-    }
-}
-
 exports.forgotpassword = async (req, res, next) => {
     const { email } = req.body;
     try {
@@ -120,27 +69,20 @@ exports.forgotpassword = async (req, res, next) => {
     }
 }
 
-exports.resetpassword = async (req, res, next) => {
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.resetToken).digest('hex')
-    try {
-        const user = await User.findOne({
-            resetPasswordToken,
-            resetPasswordExpire: { $gt: Date.now() }
-        })
-        if (!user) return next(new ErrorResponse('Invaild Reset Token', 400))
-        user.password = req.body.password
-        user.resetPasswordToken = undefined
-        user.resetPasswordExpire = undefined
-        await user.save()
-        res.status(201).json({ success: true, data: "Password Reset Success" })
-    } catch (error) {
-        next(error)
-    }
-}
-
-const sendToken = (user, statusCode, res) => {
-    const token = user.getSignedToken()
-    res.status(statusCode).json({ success: true, token })
-}
-
-*/
+// exports.resetpassword = async (req, res, next) => {
+//     const resetPasswordToken = crypto.createHash('sha256').update(req.params.resetToken).digest('hex')
+//     try {
+//         const user = await User.findOne({
+//             resetPasswordToken,
+//             resetPasswordExpire: { $gt: Date.now() }
+//         })
+//         if (!user) return next(new ErrorResponse('Invaild Reset Token', 400))
+//         user.password = req.body.password
+//         user.resetPasswordToken = undefined
+//         user.resetPasswordExpire = undefined
+//         await user.save()
+//         res.status(201).json({ success: true, data: "Password Reset Success" })
+//     } catch (error) {
+//         next(error)
+//     }
+// }
