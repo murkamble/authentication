@@ -6,7 +6,7 @@ const shortid = require('shortid')
 
 const sendToken = (user, statusCode, res) => {
     const token = user.getSignedToken()
-    res.status(statusCode).json({ success: true, token })
+    res.status(statusCode).json({ success: true, user: user, token })
 }
 
 exports.signup = async (req, res, next) => {
