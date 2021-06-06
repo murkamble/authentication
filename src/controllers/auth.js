@@ -29,9 +29,9 @@ exports.signin = async (req, res, next) => {
     if (!email || !password) return next(new ErrorResponse('Please provide email and password', 400))
     try {
         const user = await User.findOne({ email }).select('+password')
-        if (!user) return next(new ErrorResponse('Invalid Creadentials', 401))
+        if (!user) return next(new ErrorResponse('Invalid Email', 401))
         const isMatch = await user.matchPasswords(password)
-        if (!isMatch) return next(new ErrorResponse('Invalid Creadentials', 401))
+        if (!isMatch) return next(new ErrorResponse('Invalid Password', 401))
         sendToken(user, 200, res)
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
