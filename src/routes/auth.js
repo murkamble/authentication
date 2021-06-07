@@ -5,7 +5,7 @@ const { signup, signin, forgotpassword, resetpassword } = require('../controller
 router.post('/signup', signup)
 router.post('/signin', signin)
 router.post('/forgotpassword', forgotpassword)
-router.post('/resetpassword/:resetToken', resetpassword)
+router.put('/resetpassword/:resetToken', resetpassword)
 // router.post('/admin/signout', signout)
 
 module.exports = router;
