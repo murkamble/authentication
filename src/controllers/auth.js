@@ -6,14 +6,14 @@ const shortid = require('shortid')
 
 const sendToken = (user, statusCode, res) => {
     const token = user.getSignedToken()
-    const { _id, username, firstName, lastName, email, role, fullName, dob } = user
-    res.status(statusCode).json({ success: true, user: { _id, username, firstName, lastName, email, role, fullName, dob }, token })
+    const { _id, username, firstName, lastName, email, fullName, dob } = user
+    res.status(statusCode).json({ success: true, user: { _id, username, firstName, lastName, email, fullName, dob }, token })
 }
 
 exports.signup = async (req, res, next) => {
     User.findOne({ email: req.body.email })
         .exec(async (error, user) => {
-            if (user) return next(new ErrorResponse('Admin already registered.', 400))
+            if (user) return next(new ErrorResponse('User already registered.', 400))
             const { firstName, lastName, dob, email, password } = req.body
             try {
                 const _user = new User({ firstName, lastName, dob, email, password, username: firstName + shortid.generate() })
