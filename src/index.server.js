@@ -15,9 +15,11 @@ connectDB()
 
 // routes
 const authRoutes = require('./routes/auth')
+const privateRoutes = require('./routes/private')
 
 // api
 app.use('/api/auth', authRoutes)
+app.use('/api/private', privateRoutes)
 
 // Error Handler (Should be last piece of middleware)
 app.use(errorHandler)
